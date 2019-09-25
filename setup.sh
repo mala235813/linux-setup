@@ -11,3 +11,8 @@ yay -S --noconfirm - < ./package-lists/repo-add
 
 # Install aur packages
 yay -S --noconfirm - < ./package-lists/aur-add
+
+# Setup Spacemacs
+rm -rf ~/.emacs.d
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+

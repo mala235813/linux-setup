@@ -3,11 +3,11 @@
 yay -Rc --noconfirm chromium
 
 # Install packages
+yay -S --noconfirm clojure
 yay -S --noconfirm firefox
 yay -S --noconfirm kdiff3-qt
+yay -S --noconfirm overgrive
 yay -S --noconfirm xclip
-yay -S --noconfirm clojure
-
 
 # Setup Spacemacs
 yay -S --noconfirm emacs

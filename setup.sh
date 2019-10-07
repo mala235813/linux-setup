@@ -3,6 +3,9 @@
 yay -Rc --noconfirm chromium
 
 # Install packages
+yay -S --noconfirm make
+
+# Install packages
 yay -S --noconfirm clojure
 yay -S --noconfirm firefox
 yay -S --noconfirm kdiff3-qt

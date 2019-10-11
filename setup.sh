@@ -7,6 +7,7 @@ yay -S --noconfirm make
 
 # Install packages
 yay -S --noconfirm clojure
+yay -S --noconfirm drive-bin
 yay -S --noconfirm firefox
 yay -S --noconfirm kdiff3-qt
 yay -S --noconfirm overgrive

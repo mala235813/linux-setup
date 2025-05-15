@@ -4,12 +4,31 @@
 
 set -euo pipefail
 
-### DRY RUN MODE
+### DRY RUN AND VIRTUALIZATION OPTIONS
 DRYRUN=false
-if [[ "${1:-}" == "--dry-run" ]]; then
-  DRYRUN=true
-  echo "🔎 Running in dry-run mode. No changes will be made."
-fi
+VMWARE=false
+
+for arg in "$@"; do
+  case $arg in
+    --dry-run)
+      DRYRUN=true
+      echo "🔎 Running in dry-run mode. No changes will be made."
+      ;;
+    --virt=vmware)
+      VMWARE=true
+      echo "🖥️ VMware guest configuration will be applied."
+      ;;
+    --help|-h)
+      echo "Usage: $0 [OPTIONS]"
+      echo "\nOptions:"
+      echo "  --dry-run       Show the commands that would be run without executing them"
+      echo "  --virt=vmware   Enable open-vm-tools and related services"
+      echo "  --help, -h      Show this help message"
+      exit 0
+      ;;
+  esac
+  shift || true
+done
 
 run() {
   if $DRYRUN; then
@@ -20,12 +39,16 @@ run() {
 }
 
 ### Variables
-DEVICE="/dev/sda3" # Adjust to your root Btrfs partition
+DEVICE="/dev/sda3"  # Adjust to your root Btrfs partition
 timeshift_cfg="/etc/timeshift/timeshift.json"
 
 ### 1. Install core tools
 run "sudo pacman -Syu --noconfirm"
 run "sudo pacman -S --noconfirm timeshift inotify-tools grub-btrfs kitty"
+if $VMWARE; then
+  run "sudo pacman -S --noconfirm open-vm-tools"
+  run "sudo systemctl enable --now vmtoolsd.service"
+fi
 
 ### 2. Configure Timeshift for Btrfs
 run "sudo mkdir -p /etc/timeshift"

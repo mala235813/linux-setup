@@ -4,31 +4,49 @@
 
 set -euo pipefail
 
-### DRY RUN AND VIRTUALIZATION OPTIONS
+### DRY RUN, VIRTUALIZATION, AND ENVIRONMENT OPTIONS
 DRYRUN=false
 VMWARE=false
+FORCE=false
 
 for arg in "$@"; do
   case $arg in
-    --dry-run)
-      DRYRUN=true
-      echo "🔎 Running in dry-run mode. No changes will be made."
-      ;;
-    --virt=vmware)
-      VMWARE=true
-      echo "🖥️ VMware guest configuration will be applied."
-      ;;
-    --help|-h)
-      echo "Usage: $0 [OPTIONS]"
-      echo "\nOptions:"
-      echo "  --dry-run       Show the commands that would be run without executing them"
-      echo "  --virt=vmware   Enable open-vm-tools and related services"
-      echo "  --help, -h      Show this help message"
-      exit 0
-      ;;
+  --dry-run)
+    DRYRUN=true
+    echo "🔎 Running in dry-run mode. No changes will be made."
+    ;;
+  --virt=vmware)
+    VMWARE=true
+    echo "🖥️ VMware guest configuration will be applied."
+    ;;
+  --help | -h)
+    echo "Usage: $0 [OPTIONS]"
+    echo "\nOptions:"
+    echo "  --dry-run       Show the commands that would be run without executing them"
+    echo "  --virt=vmware   Enable open-vm-tools and related services"
+    echo "  --force         Bypass UEFI detection (for BIOS setups)"
+    echo "  --help, -h      Show this help message"
+    exit 0
+    ;;
+  --force)
+    FORCE=true
+    ;;
   esac
   shift || true
 done
+
+### UEFI Detection
+if [ ! -d /sys/firmware/efi ]; then
+  if ! $FORCE; then
+    echo "❌ BIOS mode detected. This script assumes UEFI for proper GRUB snapshot integration."
+    echo "Use --force to override."
+    exit 1
+  else
+    echo "⚠️ BIOS mode detected. Proceeding due to --force."
+  fi
+else
+  echo "✅ UEFI mode detected."
+fi
 
 run() {
   if $DRYRUN; then
@@ -39,7 +57,7 @@ run() {
 }
 
 ### Variables
-DEVICE="/dev/sda3"  # Adjust to your root Btrfs partition
+DEVICE="/dev/sda3" # Adjust to your root Btrfs partition
 timeshift_cfg="/etc/timeshift/timeshift.json"
 
 ### 1. Install core tools

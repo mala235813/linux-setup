@@ -109,8 +109,8 @@ run "sudo mount /timeshift-btrfs"
 run "sudo tee /usr/local/bin/watch-grub-btrfs.sh > /dev/null <<'EOF'
 #!/bin/bash
 WATCHDIR=\"/timeshift-btrfs/timeshift-btrfs/snapshots\"
-/usr/bin/inotifywait -m -e create -e moved_to --format '%f' \"$WATCHDIR\" | while read SNAPSHOT; do
-  logger \"grub-btrfs triggered by snapshot: $SNAPSHOT\"
+/usr/bin/inotifywait -m -e create -e moved_to --format '%f' \"\$WATCHDIR\" | while read SNAPSHOT; do
+  logger \"grub-btrfs triggered by snapshot: \$SNAPSHOT\"
   /etc/grub.d/41_snapshots-btrfs
 done
 EOF"

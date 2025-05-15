@@ -1,77 +1,74 @@
 # linux-setup
 
-# 🛠️ EndeavourOS Installer Package Selection (Minimal GNOME Setup)
+# 🧪 EndeavourOS Installation Guide
 
-This captures your actual selections from the EndeavourOS Calamares installer — with minimal GNOME enabled and extras omitted.
-
----
-
-## ✅ Core Installation Options
-
-- [x] **Desktop-Base + Common packages**  
-  _Recommended. Don’t change unless you know what you're doing._
-
-- [x] **EndeavourOS applications**  
-  _EndeavourOS tools and applications._
-
-- [ ] **Recommended applications selection**  
-  _General tools and applications._
-
-- [ ] **Firefox and language package**  
-  _Add Firefox and language pack if possible._
-
-- [ ] **Spell Checker and language package**  
-  _Add spell check and language pack if possible._
-
-- [ ] **Firewall**  
-  _Firewall installed and enabled._
-
-- [ ] **LTS kernel in addition**  
-  _Adding Long Term Supported kernel in addition to main one._
-
-- [ ] **Printing support**  
-  _Support for printing (CUPS)._
-
-- [ ] **HP printer/scanner support**  
-  _Packages for HP printer/scanner._
+This guide documents how to install **EndeavourOS with Btrfs, minimal GNOME, and Timeshift autosnap support**, using a clean and reproducible profile.
 
 ---
 
-## 🖥️ GNOME Desktop Selection (in Installer Order)
+## 📦 1. Package Selection (Minimal GNOME)
 
-- [x] **GNOME Desktop**
-  - [x] adwaita-icon-theme
-  - [ ] loupe
-  - [ ] evince
-  - [ ] file-roller
-  - [x] gdm
-  - [ ] gnome-calculator
-  - [ ] gnome-clocks
-  - [x] gnome-console
-  - [x] gnome-control-center
-  - [x] gnome-disk-utility
-  - [x] gnome-keyring
-  - [ ] gnome-nettool
-  - [ ] gnome-power-manager
-  - [ ] gnome-screenshot
-  - [x] gnome-shell
-  - [ ] gnome-system-monitor
-  - [ ] gnome-terminal
-  - [ ] gnome-text-editor
-  - [ ] gnome-themes-extra
-  - [x] gnome-tweaks
-  - [ ] gnome-usage
-  - [ ] gnome-weather
-  - [x] gvfs
-  - [ ] gvfs-afc
-  - [ ] gvfs-gphoto2
-  - [ ] gvfs-mtp
-  - [ ] gvfs-nfs
-  - [ ] gvfs-smb
-  - [x] nautilus
-  - [ ] sushi
-  - [ ] totem
-  - [x] xdg-desktop-portal-gnome
-  - [x] xdg-desktop-portal
-  - [x] xdg-user-dirs-gtk
-  - [x] EndeavourOS settings _(Unselect to install vanilla)_
+After launching the installer, select your packages:
+
+### ✅ Enable
+- `Desktop-Base + Common packages`
+- `EndeavourOS applications`
+- `GNOME Desktop`
+  - Only minimal components:
+    - `gdm`, `gnome-shell`, `nautilus`, `gnome-console`, `gnome-tweaks`, `gnome-control-center`, etc.
+
+### ❌ Disable
+- Recommended apps
+- Firefox/language packs
+- Printing, firewall, LTS kernel, HP support
+
+![Package Selection](screenshots/endeavour-installer-packages.png)
+
+👉 See [`installer-selections.md`](installer-selections.md) for a complete checklist.
+
+---
+
+## ⚙️ 2. Bootloader (UEFI)
+
+Choose the **system bootloader** and confirm you're installing in UEFI mode. The system will expect a `/boot/efi` FAT32 partition.
+
+![Bootloader Setup](screenshots/endeavour-installer-bootloader.png)
+
+---
+
+## 💽 3. Manual Partitioning (Btrfs + EFI)
+
+Choose **Manual Partitioning** and create the following layout:
+
+### ➤ EFI System Partition
+- Size: `512 MiB`
+- File System: `fat32`
+- Mount Point: `/boot/efi`
+- Flag: ✅ `boot`
+
+![Partition - /boot/efi](screenshots/endeavour-installer-partition-boot.png)
+
+### ➤ Root Partition
+- Size: Remaining disk
+- File System: `btrfs`
+- Mount Point: `/`
+- No flags
+
+![Partition - Root](screenshots/endeavour-installer-partition-root.png)
+
+---
+
+## 🔧 4. Finish Installation
+
+Continue with the install and reboot into your new GNOME system.
+
+---
+
+## 🚀 5. Post-Install Setup
+
+Clone your setup repository and run the script:
+
+```bash
+git clone https://github.com/YOUR-USERNAME/linux-setup.git
+cd linux-setup
+./Timeshift\ Autosnap\ Setup --virt=vmware

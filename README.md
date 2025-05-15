@@ -47,7 +47,7 @@ This captures your actual selections from the EndeavourOS Calamares installer â€
   - [x] gdm
   - [ ] gnome-calculator
   - [ ] gnome-clocks
-  - [x] gnome-console
+  - [ ] gnome-console
   - [x] gnome-control-center
   - [x] gnome-disk-utility
   - [x] gnome-keyring
@@ -56,7 +56,7 @@ This captures your actual selections from the EndeavourOS Calamares installer â€
   - [ ] gnome-screenshot
   - [x] gnome-shell
   - [ ] gnome-system-monitor
-  - [x] gnome-terminal
+  - [ ] gnome-terminal
   - [ ] gnome-text-editor
   - [ ] gnome-themes-extra
   - [x] gnome-tweaks

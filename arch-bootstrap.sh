@@ -62,7 +62,7 @@ timeshift_cfg="/etc/timeshift/timeshift.json"
 
 ### 1. Install core tools
 run "sudo pacman -Syu --noconfirm"
-run "sudo pacman -S --noconfirm timeshift inotify-tools grub-btrfs kitty"
+run "sudo pacman -S --noconfirm timeshift inotify-tools grub-btrfs kitty neovim"
 if $VMWARE; then
   run "sudo pacman -S --noconfirm open-vm-tools"
   run "sudo systemctl enable --now vmtoolsd.service"

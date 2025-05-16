@@ -57,7 +57,7 @@ run() {
 }
 
 ### Variables
-DEVICE="/dev/sda3" # Adjust to your root Btrfs partition
+DEVICE="/dev/sda2" # Adjust to your root Btrfs partition
 timeshift_cfg="/etc/timeshift/timeshift.json"
 
 ### 1. Install core tools
